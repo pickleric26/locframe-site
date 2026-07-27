@@ -135,11 +135,43 @@
   .band h2{max-width:18ch;margin-bottom:18px;}
   .band .lede{margin-bottom:44px;}
 
+  /* reel / slider */
+  .reel{margin-bottom:52px;}
+  .reel-window{overflow:hidden;border-radius:3px;}
+  .reel-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1);}
+  .slide{flex:0 0 100%;min-width:0;margin:0;}
+  .slide figcaption{
+    display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+    margin-top:16px;
+  }
+  .slide .prop{font-family:var(--display);font-size:23px;font-weight:400;}
+  .slide .meta{font-size:11px;letter-spacing:0.16em;color:var(--ink-faint);text-transform:uppercase;}
+
+  .reel-nav{
+    display:flex;align-items:center;gap:16px;
+    margin-top:26px;padding-top:20px;border-top:0.5px solid var(--rule);
+  }
+  .reel-nav button{
+    font-family:var(--body);font-size:15px;line-height:1;
+    width:38px;height:38px;border-radius:50%;
+    border:0.5px solid var(--rule);background:none;color:var(--ink);
+    cursor:pointer;transition:border-color .2s ease,color .2s ease;
+  }
+  .reel-nav button:hover:not(:disabled){border-color:var(--sage);color:var(--sage);}
+  .reel-nav button:disabled{opacity:.3;cursor:default;}
+  .reel-count{font-size:11px;letter-spacing:0.2em;color:var(--ink-faint);}
+  .reel-dots{display:flex;gap:8px;margin-left:auto;}
+  .reel-dots span{
+    width:6px;height:6px;border-radius:50%;background:var(--rule);
+    cursor:pointer;transition:background .25s ease,transform .25s ease;
+  }
+  .reel-dots span.on{background:var(--sage);transform:scale(1.35);}
+
   /* case film */
   .film{
     position:relative;border-radius:3px;overflow:hidden;
     border:0.5px solid var(--rule);background:#1b1a15;
-    aspect-ratio:16/9;margin-bottom:52px;
+    aspect-ratio:16/9;
   }
   .film video{width:100%;height:100%;object-fit:cover;}
   .film .slate{
@@ -278,15 +310,49 @@
       <span class="rule"></span>
       <span class="note">SELECTED · 2026</span>
     </div>
-    <h2 class="reveal">Blacksand Villas, <em class="accent">Bingin</em>.</h2>
-    <p class="lede reveal">A two-bedroom villa on the Bukit, built entirely from the owner's own photographs, with the amenities that win the booking called out along the way.</p>
+    <h2 class="reveal">Two villas, one <em class="accent">method</em>.</h2>
+    <p class="lede reveal">Both films were built entirely from photographs the owner already had. No crew went to either property.</p>
 
-    <div class="film reveal" id="film">
-      <video muted loop playsinline preload="metadata" poster="poster.jpg" data-hover-video>
-        <source src="villa_bingin_amenities.mp4" type="video/mp4">
-      </video>
-      <span class="slate">BLACKSAND VILLAS · 00:43 · REC</span>
-      <span class="badge" aria-hidden="true">▶</span>
+    <div class="reel reveal" id="reel">
+      <div class="reel-window">
+        <div class="reel-track" id="reelTrack">
+
+          <figure class="slide">
+            <div class="film" data-film>
+              <video muted loop playsinline preload="metadata" poster="poster.jpg">
+                <source src="villa_bingin_amenities.mp4" type="video/mp4">
+              </video>
+              <span class="slate">BLACKSAND VILLAS · BINGIN · 00:43</span>
+              <span class="badge" aria-hidden="true">▶</span>
+            </div>
+            <figcaption>
+              <span class="prop">Blacksand Villas, Bingin</span>
+              <span class="meta">2 bedrooms · Amenity callouts · Short-term rental</span>
+            </figcaption>
+          </figure>
+
+          <figure class="slide">
+            <div class="film" data-film>
+              <video muted loop playsinline preload="metadata" poster="poster_alma.jpg">
+                <source src="villa_alma.mp4" type="video/mp4">
+              </video>
+              <span class="slate">VILLA ALMA · BALI · 00:52</span>
+              <span class="badge" aria-hidden="true">▶</span>
+            </div>
+            <figcaption>
+              <span class="prop">Villa Alma</span>
+              <span class="meta">Sculptural architecture · Cinematic walkthrough</span>
+            </figcaption>
+          </figure>
+
+        </div>
+      </div>
+      <div class="reel-nav">
+        <button type="button" id="reelPrev" aria-label="Previous film">&#8592;</button>
+        <button type="button" id="reelNext" aria-label="Next film">&#8594;</button>
+        <span class="reel-count" id="reelCount">01 / 02</span>
+        <div class="reel-dots" id="reelDots"></div>
+      </div>
     </div>
 
     <div class="steps">
@@ -363,18 +429,66 @@ document.addEventListener('DOMContentLoaded',function(){
   },{threshold:0.12});
   els.forEach(function(el){io.observe(el);});
 
-  var film=document.getElementById('film');
-  var vid=film?film.querySelector('video'):null;
   var lb=document.getElementById('lb'),lbv=document.getElementById('lbVideo');
+  var films=[].slice.call(document.querySelectorAll('[data-film]'));
 
-  if(film&&vid){
-    film.addEventListener('mouseenter',function(){vid.currentTime=0;vid.play().catch(function(){});});
-    film.addEventListener('mouseleave',function(){vid.pause();vid.currentTime=0;});
-    film.addEventListener('click',function(){
-      lbv.src=vid.querySelector('source').src;
+  films.forEach(function(f){
+    var v=f.querySelector('video');
+    if(!v)return;
+    f.addEventListener('mouseenter',function(){v.currentTime=0;v.play().catch(function(){});});
+    f.addEventListener('mouseleave',function(){v.pause();v.currentTime=0;});
+    f.addEventListener('click',function(){
+      lbv.src=v.querySelector('source').src;
       lb.classList.add('open');
       lbv.play().catch(function(){});
     });
+  });
+
+  var track=document.getElementById('reelTrack');
+  if(track){
+    var slides=[].slice.call(track.children),i=0,n=slides.length;
+    var prev=document.getElementById('reelPrev'),next=document.getElementById('reelNext');
+    var count=document.getElementById('reelCount'),dots=document.getElementById('reelDots');
+    var pad=function(x){return (x<10?'0':'')+x;};
+
+    slides.forEach(function(_,k){
+      var d=document.createElement('span');
+      d.setAttribute('role','button');
+      d.setAttribute('aria-label','Go to film '+(k+1));
+      d.addEventListener('click',function(){go(k);});
+      dots.appendChild(d);
+    });
+
+    function go(k){
+      i=Math.max(0,Math.min(n-1,k));
+      track.style.transform='translateX(-'+(i*100)+'%)';
+      count.textContent=pad(i+1)+' / '+pad(n);
+      prev.disabled=(i===0);
+      next.disabled=(i===n-1);
+      [].slice.call(dots.children).forEach(function(d,k2){d.classList.toggle('on',k2===i);});
+      slides.forEach(function(s,k2){
+        var v=s.querySelector('video');
+        if(v&&k2!==i){v.pause();v.currentTime=0;}
+      });
+    }
+    prev.addEventListener('click',function(){go(i-1);});
+    next.addEventListener('click',function(){go(i+1);});
+    document.addEventListener('keydown',function(e){
+      if(lb.classList.contains('open'))return;
+      if(e.key==='ArrowLeft')go(i-1);
+      if(e.key==='ArrowRight')go(i+1);
+    });
+
+    var x0=null;
+    track.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+    track.addEventListener('touchend',function(e){
+      if(x0===null)return;
+      var dx=e.changedTouches[0].clientX-x0;
+      if(Math.abs(dx)>50)go(dx<0?i+1:i-1);
+      x0=null;
+    },{passive:true});
+
+    go(0);
   }
   function closeLb(){lb.classList.remove('open');lbv.pause();lbv.src='';}
   document.getElementById('lbClose').addEventListener('click',closeLb);
@@ -402,8 +516,8 @@ document.addEventListener('DOMContentLoaded',function(){
       cur.style.left=e.clientX+'px';
       cur.style.top=e.clientY+'px';
       var t=e.target;
-      if(film&&film.contains(t)){cur.className='on-film';}
-      else if(t.closest&&t.closest('a,button')){cur.className='on-link';}
+      if(t.closest&&t.closest('[data-film]')){cur.className='on-film';}
+      else if(t.closest&&t.closest('a,button,[role="button"]')){cur.className='on-link';}
       else{cur.className='';}
     });
     document.addEventListener('mouseleave',function(){cur.style.opacity='0';});
