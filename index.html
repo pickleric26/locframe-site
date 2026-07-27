@@ -169,6 +169,24 @@
   .contact{text-align:left;}
   .contact h2{max-width:16ch;}
   .contact-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:34px;}
+  .mailline{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    margin-top:22px;font-size:15px;color:var(--ink-soft);
+  }
+  .mailline a{color:var(--sage);border-bottom:0.5px solid var(--rule);padding-bottom:1px;}
+  .mailline a:hover{border-bottom-color:var(--sage);}
+  .mailline button{
+    font-family:var(--body);font-weight:300;font-size:10.5px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--ink-faint);background:none;
+    border:0.5px solid var(--rule);border-radius:2px;padding:4px 9px;cursor:pointer;
+    transition:border-color .2s ease,color .2s ease;
+  }
+  .mailline button:hover{border-color:var(--sage);color:var(--sage);}
+  .mailline #copyOk{
+    font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;
+    color:var(--sage);opacity:0;transition:opacity .2s ease;
+  }
+  .mailline #copyOk.show{opacity:1;}
 
   /* footer */
   footer{padding:52px 32px 38px;border-top:0.5px solid var(--rule);}
@@ -300,7 +318,7 @@
     </div>
     <h2 class="reveal">A listing's job is to make someone <em class="accent">feel</em> something.</h2>
     <p class="reveal">Static photos show what a space looks like. They can't show what it feels like to be there. Locframe closes that gap, turning the photographs you already have into a film that moves people to book.</p>
-    <p class="reveal">No videographer on site. No shoot day to schedule around guests. You send the images, we return the walkthrough, and one person handles it from first email to final file.</p>
+    <p class="reveal">No videographer on site. No shoot day to schedule around guests. You send the images, we return the walkthrough, and one person — Jozua — handles it from first email to final file.</p>
   </div>
 </section>
 
@@ -315,8 +333,8 @@
     <p class="lede reveal">Book a short call and we'll walk through what a film would look like for one of your villas, and exactly which photos we'd need.</p>
     <div class="contact-cta reveal">
       <a href="https://calendar.app.google/FC9HvpCXfCi86Fwk9" target="_blank" rel="noopener" class="btn btn-solid">Book a 25-minute call</a>
-      <a href="mailto:jai@locframe.com?subject=LOCFRAME%20Enquiry" class="btn btn-line">Email the studio</a>
     </div>
+    <p class="mailline reveal">Or write to <a href="mailto:hello@locframe.com?subject=LOCFRAME%20Enquiry" id="mailLink">hello@locframe.com</a><button type="button" id="copyMail" aria-label="Copy email address">copy</button><span id="copyOk" role="status">copied</span></p>
   </div>
 </section>
 
@@ -327,7 +345,7 @@
       <p>Cinematic walkthrough films for villas, short-term rentals, and homes on the market.</p>
     </div>
     <div class="foot-meta">
-      © 2026 Locframe<br>locframe.com
+      hello@locframe.com<br>© 2026 Locframe · locframe.com
     </div>
   </div>
 </footer>
@@ -362,6 +380,21 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('lbClose').addEventListener('click',closeLb);
   lb.addEventListener('click',function(e){if(e.target===lb)closeLb();});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open'))closeLb();});
+
+  var copyBtn=document.getElementById('copyMail'),copyOk=document.getElementById('copyOk');
+  if(copyBtn){
+    copyBtn.addEventListener('click',function(){
+      var addr='hello@locframe.com';
+      function done(){copyOk.classList.add('show');setTimeout(function(){copyOk.classList.remove('show');},1800);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){
+        navigator.clipboard.writeText(addr).then(done).catch(function(){});
+      }else{
+        var t=document.createElement('textarea');t.value=addr;document.body.appendChild(t);
+        t.select();try{document.execCommand('copy');done();}catch(err){}
+        document.body.removeChild(t);
+      }
+    });
+  }
 
   var cur=document.getElementById('cursor');
   if(cur&&window.matchMedia('(pointer:fine)').matches){
