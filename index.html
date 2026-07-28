@@ -106,13 +106,25 @@
 
   /* hero */
   .hero{
+    position:relative;
     padding:110px 32px 78px;
-    background:
-      radial-gradient(ellipse 70% 62% at 50% 0%, #ffffff 0%, transparent 60%),
-      linear-gradient(180deg, var(--paper-alt) 0%, var(--paper) 62%);
+    overflow:hidden;
+    background:linear-gradient(180deg, var(--paper-alt) 0%, var(--paper) 62%);
     border-bottom:0.5px solid var(--rule);
   }
-  .hero-inner{max-width:var(--max);margin:0 auto;}
+  .hero-bg{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    z-index:0;
+  }
+  .hero-scrim{
+    position:absolute;inset:0;z-index:1;
+    background:
+      radial-gradient(ellipse 74% 68% at 50% 0%, rgba(255,255,255,0.94) 0%, rgba(250,248,244,0.72) 45%, transparent 78%),
+      linear-gradient(180deg, rgba(250,248,244,0.80) 0%, rgba(250,248,244,0.66) 42%, var(--paper) 96%);
+  }
+  .hero-inner{position:relative;z-index:2;max-width:var(--max);margin:0 auto;}
   .hero h1{max-width:15ch;margin-bottom:22px;}
   .hero .lede{margin-bottom:34px;}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;}
@@ -264,6 +276,8 @@
     html{scroll-behavior:auto;}
     #cursor{display:none;}
     body{cursor:auto;}
+    .hero-bg{display:none;}
+    .hero{background:radial-gradient(ellipse 70% 62% at 50% 0%, #ffffff 0%, transparent 60%),linear-gradient(180deg, var(--paper-alt) 0%, var(--paper) 62%);}
   }
 </style>
 </head>
@@ -283,6 +297,10 @@
 </header>
 
 <section class="hero">
+  <video class="hero-bg" autoplay muted loop playsinline preload="metadata" poster="poster.jpg" aria-hidden="true">
+    <source src="villa_bingin_walkthrough_web.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
   <div class="hero-inner">
     <div class="marker reveal">
       <span class="num">01 / FILM</span>
