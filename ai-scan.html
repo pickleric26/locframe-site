@@ -132,6 +132,54 @@
     #cursor.on-link{width:26px;height:26px;background:rgba(107,122,90,.35);}
   }
 
+  .viz-card{background:var(--paper-alt);border:0.5px solid var(--rule);border-radius:3px;padding:26px 24px;}
+  .viz-label{font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .viz-tag{font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-faint);border:0.5px solid var(--rule);border-radius:2px;padding:2px 7px;}
+  .viz-caption{font-size:13px;color:var(--ink-soft);margin-top:18px;}
+  .viz{min-height:150px;}
+
+  .flow-nodes{display:flex;align-items:center;margin-bottom:22px;}
+  .flow-node{display:flex;flex-direction:column;align-items:center;gap:7px;width:64px;flex:0 0 auto;}
+  .fn-ic{width:44px;height:44px;border-radius:50%;border:0.5px solid var(--rule);background:var(--paper);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:9px;letter-spacing:0.04em;}
+  .fn-cap{font-size:10px;color:var(--ink-faint);letter-spacing:0.04em;}
+  .flow-line{position:relative;flex:1 1 auto;height:1px;background:var(--rule);margin:0 4px;top:-13px;}
+  .flow-dot{position:absolute;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--sage);opacity:0;}
+  .flow-checklist{list-style:none;display:flex;flex-direction:column;gap:9px;}
+  .fchk{font-size:12.5px;color:var(--ink-soft);padding-left:18px;position:relative;opacity:.32;}
+  .fchk::before{content:'';position:absolute;left:0;top:5px;width:8px;height:8px;border-radius:50%;background:var(--sage);}
+  .fn1{animation:fnode1 8s ease-in-out infinite;}
+  .fn2{animation:fnode2 8s ease-in-out infinite;}
+  .fn3{animation:fnode3 8s ease-in-out infinite;}
+  .fd1{animation:fdot1 8s ease-in-out infinite;}
+  .fd2{animation:fdot2 8s ease-in-out infinite;}
+  .fc1{animation:fcheck1 8s ease-in-out infinite;}
+  .fc2{animation:fcheck2 8s ease-in-out infinite;}
+  .fc3{animation:fcheck3 8s ease-in-out infinite;}
+  @keyframes fnode1{0%,3%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}4%,15%{background:var(--sage);border-color:var(--sage);color:var(--paper);transform:scale(1.08);}16%,100%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}}
+  @keyframes fnode2{0%,27%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}28%,39%{background:var(--sage);border-color:var(--sage);color:var(--paper);transform:scale(1.08);}40%,100%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}}
+  @keyframes fnode3{0%,51%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}52%,63%{background:var(--sage);border-color:var(--sage);color:var(--paper);transform:scale(1.08);}64%,100%{background:var(--paper);border-color:var(--rule);color:var(--ink);transform:scale(1);}}
+  @keyframes fdot1{0%,15%{opacity:0;left:2%;}16%{opacity:1;left:2%;}27%{opacity:1;left:90%;}28%,100%{opacity:0;left:90%;}}
+  @keyframes fdot2{0%,39%{opacity:0;left:2%;}40%{opacity:1;left:2%;}51%{opacity:1;left:90%;}52%,100%{opacity:0;left:90%;}}
+  @keyframes fcheck1{0%,3%{opacity:.32;}4%,87%{opacity:1;}88%,100%{opacity:.32;}}
+  @keyframes fcheck2{0%,27%{opacity:.32;}28%,87%{opacity:1;}88%,100%{opacity:.32;}}
+  @keyframes fcheck3{0%,51%{opacity:.32;}52%,87%{opacity:1;}88%,100%{opacity:.32;}}
+
+  .viz-chat{display:flex;flex-direction:column;gap:10px;min-height:150px;justify-content:center;}
+  .chat-bubble{max-width:88%;font-size:12.5px;padding:10px 14px;border-radius:12px;line-height:1.5;opacity:0;}
+  .chat-q{align-self:flex-end;background:var(--sage);color:var(--paper);border-bottom-right-radius:2px;animation:cq 7s ease-in-out infinite;}
+  .chat-reply-slot{display:grid;}
+  .chat-reply-slot>.chat-bubble{grid-area:1/1;align-self:start;}
+  .chat-typing{align-self:flex-start;background:var(--paper);border:0.5px solid var(--rule);border-bottom-left-radius:2px;display:flex;gap:4px;padding:13px 16px;animation:ctyping 7s ease-in-out infinite;}
+  .chat-typing span{width:6px;height:6px;border-radius:50%;background:var(--ink-faint);animation:cbounce 1.2s ease-in-out infinite;}
+  .chat-typing span:nth-child(2){animation-delay:.15s;}
+  .chat-typing span:nth-child(3){animation-delay:.3s;}
+  .chat-a{align-self:flex-start;background:var(--paper);border:0.5px solid var(--rule);border-bottom-left-radius:2px;animation:ca 7s ease-in-out infinite;}
+  .cite{display:block;margin-top:6px;font-size:10px;letter-spacing:0.04em;color:var(--ink-faint);text-transform:uppercase;}
+  @keyframes cq{0%,2%{opacity:0;transform:translateY(6px);}4%,88%{opacity:1;transform:none;}90%,100%{opacity:0;transform:translateY(6px);}}
+  @keyframes ctyping{0%,17%{opacity:0;}19%,52%{opacity:1;}54%,100%{opacity:0;}}
+  @keyframes ca{0%,53%{opacity:0;transform:translateY(6px);}55%,88%{opacity:1;transform:none;}90%,100%{opacity:0;transform:translateY(6px);}}
+  @keyframes cbounce{0%,80%,100%{transform:translateY(0);opacity:.35;}40%{transform:translateY(-4px);opacity:1;}}
+
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease;}
   .reveal.in{opacity:1;transform:none;}
   @media (prefers-reduced-motion:reduce){
@@ -139,6 +187,10 @@
     html{scroll-behavior:auto;}
     #cursor{display:none;}
     body{cursor:auto;}
+    .fn-ic,.flow-dot,.fchk,.chat-bubble,.chat-typing span{animation:none !important;}
+    .fchk{opacity:1;}
+    .chat-q,.chat-a{opacity:1;transform:none;}
+    .chat-typing,.flow-dot{display:none;}
   }
 </style>
 </head>
@@ -214,10 +266,55 @@
   </div>
 </section>
 
+<section class="band" id="actie">
+  <div class="band-inner">
+    <div class="marker reveal">
+      <span class="num">07 / IN ACTIE</span>
+      <span class="rule"></span>
+      <span class="note">TWEE KNELPUNTEN · VOORBEELD</span>
+    </div>
+    <h2 class="reveal">Niet abstract. Dit gebeurt er <em class="accent">concreet</em>.</h2>
+    <p class="lede reveal">Twee knelpunten die het vaakst terugkomen bij makelaarskantoren, en hoe de aanbevolen tools ze in de praktijk oplossen.</p>
+
+    <div class="grid2">
+      <div class="viz-card reveal">
+        <div class="viz-label">Bezichtigingsaanvragen <span class="viz-tag">voorbeeld</span></div>
+        <div class="viz viz-flow">
+          <div class="flow-nodes">
+            <div class="flow-node"><div class="fn-ic fn1">MAIL</div><span class="fn-cap">Funda</span></div>
+            <div class="flow-line"><span class="flow-dot fd1"></span></div>
+            <div class="flow-node"><div class="fn-ic fn2">AI</div><span class="fn-cap">Triage</span></div>
+            <div class="flow-line"><span class="flow-dot fd2"></span></div>
+            <div class="flow-node"><div class="fn-ic fn3">AGENDA</div><span class="fn-cap">Bezichtiging</span></div>
+          </div>
+          <ul class="flow-checklist">
+            <li class="fchk fc1">Aanvraag binnen uit Funda</li>
+            <li class="fchk fc2">Getrieerd en beantwoord door AI</li>
+            <li class="fchk fc3">Bezichtiging ingepland en bevestigd</li>
+          </ul>
+        </div>
+        <p class="viz-caption">Van binnenkomende aanvraag tot bevestigde afspraak, zonder dat iemand het overtypt.</p>
+      </div>
+
+      <div class="viz-card reveal">
+        <div class="viz-label">VvE-stukken &amp; contracten <span class="viz-tag">voorbeeld</span></div>
+        <div class="viz viz-chat">
+          <div class="chat-bubble chat-q">Is er een erfpachtclausule in dit dossier?</div>
+          <div class="chat-reply-slot">
+            <div class="chat-bubble chat-typing"><span></span><span></span><span></span></div>
+            <div class="chat-bubble chat-a">Ja, artikel 4.2 van de erfpachtakte.<span class="cite">bron: erfpachtakte, p. 6</span></div>
+          </div>
+        </div>
+        <p class="viz-caption">Een vraag over het dossier, beantwoord met paginaverwijzing — in plaats van een avond doorlezen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="band band-alt" id="krijgt">
   <div class="band-inner">
     <div class="marker reveal">
-      <span class="num">07 / HET RAPPORT</span>
+      <span class="num">08 / HET RAPPORT</span>
       <span class="rule"></span>
       <span class="note">WAT JE KRIJGT</span>
     </div>
@@ -238,7 +335,7 @@
 <section class="band" id="voorwie">
   <div class="band-inner">
     <div class="marker reveal">
-      <span class="num">08 / VOOR WIE</span>
+      <span class="num">09 / VOOR WIE</span>
       <span class="rule"></span>
       <span class="note">RANDSTAD · 3–15 MAKELAARS</span>
     </div>
@@ -253,7 +350,7 @@
 <section class="band band-alt contact" id="aanvragen">
   <div class="band-inner">
     <div class="marker reveal">
-      <span class="num">09 / AANVRAGEN</span>
+      <span class="num">10 / AANVRAGEN</span>
       <span class="rule"></span>
       <span class="note">REAGEERT BINNEN ÉÉN DAG</span>
     </div>
